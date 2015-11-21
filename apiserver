@@ -1,0 +1,19 @@
+# The address on the local server to listen to.
+KUBE_API_ADDRESS="--address=0.0.0.0"
+
+# admission control policies doesn't work 
+#KUBE_ADMISSION_CONTROL="--admission_control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota"
+# default admission control policies
+KUBE_ADMISSION_CONTROL="--admission_control=NamespaceAutoProvision,LimitRanger,ResourceQuota"
+
+# The port on the local server to listen on.
+# KUBE_API_PORT="--port=8080"
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS="--etcd_servers=http://192.168.122.10:2379"
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES="--portal_net=10.254.0.0/16"
+
+# Add you own!
+KUBE_API_ARGS=""
