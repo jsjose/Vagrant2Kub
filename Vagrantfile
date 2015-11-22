@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 # Vagrantfile for atomic example http://www.projectatomic.io/docs/gettingstarted/
+# "en0: Wi-Fi (AirPort)" is used as public network
 
 # Ugrade vm if necessary
 $upgrade = <<SCRIPT
