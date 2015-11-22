@@ -27,15 +27,15 @@ SCRIPT1
 # Master configuration
 $config_master = <<SCRIPT2  
 echo I am configuring Atomic Master...
-sudo cp ./sync/local-registry.service /etc/systemd/system/local-registry.service
+sudo cp ./sync/configFiles/local-registry.service /etc/systemd/system/local-registry.service
 sudo systemctl daemon-reload
 sudo systemctl enable local-registry
 sudo systemctl start local-registry
-sudo cp ./sync/etcd.conf /etc/etcd/etcd.conf
-sudo cp ./sync/config /etc/kubernetes/config
-sudo cp ./sync/apiserver /etc/kubernetes/apiserver
-sudo cp ./sync/controller-manager /etc/kubernetes/controller-manager
-sudo cp ./sync/flanneld-conf.json ./
+sudo cp ./sync/configFiles/etcd.conf /etc/etcd/etcd.conf
+sudo cp ./sync/configFiles/config /etc/kubernetes/config
+sudo cp ./sync/configFiles/apiserver /etc/kubernetes/apiserver
+sudo cp ./sync/configFiles/controller-manager /etc/kubernetes/controller-manager
+sudo cp ./sync/configFiles/flanneld-conf.json ./
 sudo systemctl enable etcd kube-apiserver kube-controller-manager kube-scheduler
 sudo systemctl start etcd kube-apiserver kube-controller-manager kube-scheduler
 SCRIPT2
@@ -43,11 +43,11 @@ SCRIPT2
 $config_host = <<SCRIPT3
 echo I am configuring Atomic host...
 # copy config files
-sudo cp ./sync/docker /etc/sysconfig/docker
-sudo cp ./sync/flanneld /etc/sysconfig/flanneld
-sudo cp ./sync/10-flanneld-network.conf /etc/systemd/system/docker.service.d/10-flanneld-network.conf
-sudo cp ./sync/config.node /etc/kubernetes/config
-sudo cp ./sync/docker /etc/sysconfig/docker
+sudo cp ./sync/configFiles/docker /etc/sysconfig/docker
+sudo cp ./sync/configFiles/flanneld /etc/sysconfig/flanneld
+sudo cp ./sync/configFiles/10-flanneld-network.conf /etc/systemd/system/docker.service.d/10-flanneld-network.conf
+sudo cp ./sync/configFiles/config.node /etc/kubernetes/config
+sudo cp ./sync/configFiles/docker /etc/sysconfig/docker
 sudo mkdir -p /etc/systemd/system/docker.service.d/
 # interface config file patching. Vagrant by default config miss NM_CONTROLLED parameter 
 sudo awk '{gsub("NM_CONTROLLED=no", "NM_CONTROLLED=yes")}1' /etc/sysconfig/network-scripts/ifcfg-enp0s8 > ifcfg-enp0s8.bak && sudo cp ifcfg-enp0s8.bak /etc/sysconfig/network-scripts/ifcfg-enp0s8
@@ -66,7 +66,7 @@ SCRIPT4
 # configure kubelet config file for each node
 $config_kubelet = <<SCRIPT5
 echo I am configuring kubelet IP addr... 192.168.122.$1
-sudo awk '{gsub("XXX", '$1')}1' sync/kubelet > kubelet.bak && sudo cp kubelet.bak /etc/kubernetes/kubelet
+sudo awk '{gsub("XXX", '$1')}1' ./sync/configFiles/kubelet > kubelet.bak && sudo cp kubelet.bak /etc/kubernetes/kubelet
 SCRIPT5
 
 # Use https://github.com/exratione/vagrant-provision-reboot plugin for reboot
