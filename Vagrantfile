@@ -48,7 +48,6 @@ sudo cp ./sync/configFiles/docker /etc/sysconfig/docker
 sudo cp ./sync/configFiles/flanneld /etc/sysconfig/flanneld
 sudo cp ./sync/configFiles/10-flanneld-network.conf /etc/systemd/system/docker.service.d/10-flanneld-network.conf
 sudo cp ./sync/configFiles/config.node /etc/kubernetes/config
-sudo cp ./sync/configFiles/docker /etc/sysconfig/docker
 # interface config file patching. Vagrant by default config miss NM_CONTROLLED parameter 
 sudo awk '{gsub("NM_CONTROLLED=no", "NM_CONTROLLED=yes")}1' /etc/sysconfig/network-scripts/ifcfg-enp0s8 > ifcfg-enp0s8.bak && sudo cp ifcfg-enp0s8.bak /etc/sysconfig/network-scripts/ifcfg-enp0s8
 # reload and enable services
@@ -93,6 +92,8 @@ Vagrant.configure(2) do |config|
       node.vm.network "private_network", ip: "192.168.122.#{i}" 
       node.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)"
       node.vm.provision "shell", inline: $upgrade
+      # It is necessary a reboot in order to get upgraded
+      node.vm.provision :unix_reboot
       node.vm.provision "shell" do |s|
          s.inline = $config_kubelet
          s.args   = "#{i}"
