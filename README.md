@@ -6,3 +6,6 @@ This vagrantfile starts one master and 4 nodes using virtualbox provider. It use
 configFile directory contains configuration files of master and nodes. example directorio contains ngnix example. You can find a lot of examples in https://github.com/kubernetes/kubernetes.
 
 This version works over macOS. Currently working in a version for windows.
+
+Take in count in windows
+- export VAGRANT_DETECTED_OS=cygwin

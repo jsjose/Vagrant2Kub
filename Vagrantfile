@@ -43,12 +43,12 @@ SCRIPT2
 $config_host = <<SCRIPT3
 echo I am configuring Atomic host...
 # copy config files
+sudo mkdir -p /etc/systemd/system/docker.service.d/
 sudo cp ./sync/configFiles/docker /etc/sysconfig/docker
 sudo cp ./sync/configFiles/flanneld /etc/sysconfig/flanneld
 sudo cp ./sync/configFiles/10-flanneld-network.conf /etc/systemd/system/docker.service.d/10-flanneld-network.conf
 sudo cp ./sync/configFiles/config.node /etc/kubernetes/config
 sudo cp ./sync/configFiles/docker /etc/sysconfig/docker
-sudo mkdir -p /etc/systemd/system/docker.service.d/
 # interface config file patching. Vagrant by default config miss NM_CONTROLLED parameter 
 sudo awk '{gsub("NM_CONTROLLED=no", "NM_CONTROLLED=yes")}1' /etc/sysconfig/network-scripts/ifcfg-enp0s8 > ifcfg-enp0s8.bak && sudo cp ifcfg-enp0s8.bak /etc/sysconfig/network-scripts/ifcfg-enp0s8
 # reload and enable services
